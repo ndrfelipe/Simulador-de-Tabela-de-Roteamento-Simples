@@ -1,0 +1,38 @@
+[
+  {
+    "rede": "192.168.1.0/24",
+    "proximo_salto": "10.0.0.1",
+    "ad": 1,
+    "metrica": 10
+  },
+  {
+    "rede": "192.168.0.0/16",
+    "proximo_salto": "10.0.0.2",
+    "ad": 1,
+    "metrica": 10
+  },
+  {
+    "rede": "192.168.1.70/32",
+    "proximo_salto": "10.0.0.3",
+    "ad": 1,
+    "metrica": 10
+  },
+  {
+    "rede": "172.16.0.0/16",
+    "proximo_salto": "10.0.0.4",
+    "ad": 110,
+    "metrica": 20
+  },
+  {
+    "rede": "172.16.0.0/16",
+    "proximo_salto": "10.0.0.5",
+    "ad": 1,
+    "metrica": 10
+  },
+  {
+    "rede": "0.0.0.0/0",
+    "proximo_salto": "200.1.1.1",
+    "ad": 1,
+    "metrica": 0
+  }
+]
