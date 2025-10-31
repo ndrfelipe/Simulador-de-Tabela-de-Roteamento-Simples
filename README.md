@@ -9,6 +9,9 @@ Este projeto é um aplicativo Python que simula a lógica de decisão de roteame
 Pense no roteamento como o "GPS da internet". É o processo que dispositivos de rede chamados **roteadores** usam para decidir qual o melhor caminho para enviar pacotes de dados de uma rede para outra.
 
 Quando um roteador recebe um pacote, ele olha o endereço IP de destino e consulta sua **Tabela de Roteamento**. Esta tabela é um conjunto de regras que diz: "Para chegar na rede X, envie o pacote para o roteador Y".
+<div style="background-color: #fff">
+  <img src="https://cf-assets.www.cloudflare.com/slt3lc6tev37/5biqo5wm6nM8GSmiNyiAnl/b6b5c9befeda6ba99b4380d84953de18/routing-diagram.svg" alt="Minha Figura">
+</div>
 
 O desafio é que, muitas vezes, existem *vários caminhos* possíveis para o mesmo destino. Para escolher o **melhor caminho**, o roteador segue uma lógica de decisão hierárquica e muito estrita:
 
