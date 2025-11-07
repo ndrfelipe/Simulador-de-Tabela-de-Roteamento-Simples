@@ -1,7 +1,7 @@
 import ipaddress
 import json
 from .rota import Rota
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 class TabelaRoteamento:
     """
@@ -47,16 +47,16 @@ class TabelaRoteamento:
         except Exception as e:
             print(f"ERRO ao ler o arquivo JSON: {e}")
 
-    def encontrar_melhor_rota(self, ip_destino_str: str) -> Optional[Rota]:
+    def encontrar_melhor_rota(self, ip_destino_str: str) -> Tuple[Optional[Rota], List[Rota]]:
         """
-        Executa a lógica de decisão de roteamento.
+            Executa a lógica de decisão de roteamento.
 
-        1. Encontra todas as rotas correspondentes (IP dentro da rede).
-        2. Filtra pela correspondência de prefixo mais longa (Longest Prefix Match).
-        3. Se houver empate, filtra pela menor Distância Administrativa (AD).
-        4. Se houver empate, filtra pela menor Métrica.
+            1. Encontra todas as rotas correspondentes (IP dentro da rede).
+            2. Filtra pela correspondência de prefixo mais longa (Longest Prefix Match).
+            3. Se houver empate, filtra pela menor Distância Administrativa (AD).
+            4. Se houver empate, filtra pela menor Métrica.
 
-        Retorna a melhor Rota ou None se nenhuma corresponder.
+            Retorna a melhor Rota ou None se nenhuma corresponder.
         """
 
         # Esse é apenas um esqueleto da lógica
@@ -73,7 +73,7 @@ class TabelaRoteamento:
 
         if not rotas_correspondentes:
             print("Nenhuma rota encontrada (nem mesmo padrão). Pacote descartado.")
-            return None
+            return None, []
         
         print(f"Rotas correspondentes encontradas: {len(rotas_correspondentes)}")
 
@@ -100,4 +100,4 @@ class TabelaRoteamento:
         melhor_rota = candidatas_metrica[0]
 
         print(f"MELHOR ROTA: {melhor_rota.rede} via {melhor_rota.proximo_salto}")
-        return melhor_rota
+        return melhor_rota, rotas_correspondentes

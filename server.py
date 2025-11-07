@@ -23,52 +23,57 @@ def index():
 
 @app.route('/api/simular', methods=['POST'])
 def api_simular():
-    """ 
-    Esta é a API que o seu frontend vai chamar.
-    Ela recebe um JSON (ex: {"ip_destino": "192.168.1.50"})
-    e retorna um JSON com o resultado.
-    """
+    print("\nLOG DO SERVIDOR: Recebida requisição em /api/simular")
+    
     try:
         dados = request.json
         ip_destino = dados.get('ip_destino')
 
         if not ip_destino:
+            print("LOG DO SERVIDOR: Erro - IP de destino não fornecido")
             return jsonify({"erro": "IP de destino não fornecido"}), 400
 
-  
-        
-        melhor_rota = roteador_global.tabela_roteamento.encontrar_melhor_rota(ip_destino)
+        # 1. Chamar a função atualizada
+        # Ela agora retorna (melhor_rota, todas_as_rotas)
+        melhor_rota, rotas_correspondentes = roteador_global.tabela_roteamento.encontrar_melhor_rota(ip_destino)
 
-        if melhor_rota:
-            resultado = {
-                "ip_consultado": ip_destino,
-                "melhor_rota_encontrada": {
-                    "rede": str(melhor_rota.rede),
-                    "proximo_salto": melhor_rota.proximo_salto,
-                    "ad": melhor_rota.ad,
-                    "metrica": melhor_rota.metrica
-                }
-            }
-            return jsonify(resultado)
-        else:
-            return jsonify({
-                "ip_consultado": ip_destino,
-                "melhor_rota_encontrada": None,
-                "mensagem": "Nenhuma rota correspondente encontrada (pacote descartado)."
-            }), 404
+        # 2. Construir o JSON de resposta no formato que o React espera
+        routes_json = []
+        if rotas_correspondentes:
+            for rota in rotas_correspondentes:
+                # Verifica se a 'rota' atual é a 'melhor_rota'
+                is_best = False
+                if melhor_rota and (
+                    rota.rede == melhor_rota.rede and
+                    rota.proximo_salto == melhor_rota.proximo_salto and
+                    rota.ad == melhor_rota.ad and
+                    rota.metrica == melhor_rota.metrica
+                ):
+                    is_best = True
+                
+                routes_json.append({
+                    "network": str(rota.rede),
+                    "nextHop": rota.proximo_salto, # <-- Ajuste: 'nextHop' (camelCase)
+                    "ad": rota.ad,
+                    "metric": rota.metrica,        # <-- Ajuste: 'metric' (camelCase)
+                    "isBest": is_best             # <-- A flag que o React espera!
+                })
+        
+        # O frontend espera um objeto com uma chave 'routes'
+        return jsonify({"routes": routes_json})
 
     except Exception as e:
+        print(f"LOG DO SERVIDOR: Erro inesperado: {e}")
         return jsonify({"erro": f"Erro interno no servidor: {e}"}), 500
+    
 
 @app.route('/api/rotas', methods=['GET'])
 def api_get_rotas():
     """ API bônus: permite que o frontend exiba a tabela de rotas atual """
-    # Lê o arquivo json e o retorna
     with open("routes.json", 'r') as f:
         rotas = json.load(f)
     return jsonify(rotas)
 
-# --- Fim das Rotas da API ---
 
 if __name__ == '__main__':
     # Roda o servidor web
