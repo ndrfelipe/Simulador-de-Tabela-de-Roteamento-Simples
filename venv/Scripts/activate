@@ -36,6 +36,7 @@ deactivate () {
 deactivate nondestructive
 
 # on Windows, a path can contain colons and backslashes and has to be converted:
+<<<<<<< HEAD
 case "$(uname)" in
     CYGWIN*|MSYS*)
         # transform D:\path\to\venv to /d/path/to/venv on MSYS
@@ -48,6 +49,16 @@ case "$(uname)" in
         export VIRTUAL_ENV="C:\Users\avfs_cesar\Simulador-de-Tabela-de-Roteamento-Simples\venv"
         ;;
 esac
+=======
+if [ "${OSTYPE:-}" = "cygwin" ] || [ "${OSTYPE:-}" = "msys" ] ; then
+    # transform D:\path\to\venv to /d/path/to/venv on MSYS
+    # and to /cygdrive/d/path/to/venv on Cygwin
+    export VIRTUAL_ENV=$(cygpath "C:\Simulador-de-Tabela-de-Roteamento-Simples\venv")
+else
+    # use the path as-is
+    export VIRTUAL_ENV="C:\Simulador-de-Tabela-de-Roteamento-Simples\venv"
+fi
+>>>>>>> 4e2f1cb21dd7943dba69351db94c2d004d4c95c8
 
 _OLD_VIRTUAL_PATH="$PATH"
 PATH="$VIRTUAL_ENV/Scripts:$PATH"

@@ -8,7 +8,11 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
+<<<<<<< HEAD
 set VIRTUAL_ENV=C:\Users\avfs_cesar\Simulador-de-Tabela-de-Roteamento-Simples\venv
+=======
+set VIRTUAL_ENV=C:\Simulador-de-Tabela-de-Roteamento-Simples\venv
+>>>>>>> 4e2f1cb21dd7943dba69351db94c2d004d4c95c8
 
 if not defined PROMPT set PROMPT=$P$G
 
