@@ -9,7 +9,7 @@ class Rota:
     def __init__(self, rede_str: str, proximo_salto: str, ad: int, metrica: int):
         """
             Inicializa uma Rota.
-
+           
             Args:
                 rede_str (str): A rede de destino em formato CIDR (ex: "192.168.1.0/24").
                 proximo_salto (str): O IP do próximo salto ou "Conectada".
